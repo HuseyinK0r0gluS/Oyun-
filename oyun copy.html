@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Valentine ❤️</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        margin: 0;
+        background: linear-gradient(135deg, #1a1a5e 0%, #2d1b4e 25%, #ff69b4 50%, #ff1493 75%, #dc143c 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        overflow: hidden;
+        text-align: center;
+        color: white;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+    
+    h1 {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 2.5em;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        z-index: 100;
+        pointer-events: none;
+    }
+    
+    .score-display {
+        position: absolute;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 2em;
+        font-weight: bold;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        z-index: 200;
+        background: rgba(30, 58, 138, 0.8);
+        padding: 12px 30px;
+        border-radius: 15px;
+        border: 2px solid rgba(59, 130, 246, 0.6);
+    }
+    
+    .game-container {
+        position: relative;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        margin-top: 80px;
+    }
+    
+    canvas {
+        display: block;
+        margin: auto;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    #message {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 500px;
+        font-size: 1.5em;
+        font-weight: bold;
+        opacity: 0;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+        z-index: 100;
+        pointer-events: none;
+        background: rgba(0, 0, 0, 0.4);
+        padding: 10px 20px;
+        border-radius: 10px;
+    }
+    
+    .instructions {
+        margin-top: 15px;
+        font-size: 0.9em;
+        opacity: 0.9;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .final-message {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    
+    .final-message.show {
+        display: flex;
+    }
+    
+    .final-content {
+        text-align: center;
+    }
+    
+    .final-content h2 {
+        font-size: 3em;
+        margin-bottom: 20px;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    }
+    
+    .final-content p {
+        font-size: 1.5em;
+        margin: 10px 0;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .kissing-break {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+    }
+    
+    .kissing-break.show {
+        display: flex;
+    }
+    
+    .kissing-break-content {
+        text-align: center;
+        font-size: 3em;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    }
+    
+    .lilies-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0ibGlseSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmZTZmNjtzdG9wLW9wYWNpdHk6MC4xNSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmYjZjMTtzdG9wLW9wYWNpdHk6MC4xNSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxwYXRoIGQ9Ik00MDAgODAwIEM0MDAgNjAwIDUwMCA1MDAgNjAwIDUwMCBDNzAwIDUwMCA4MDAgNjAwIDgwMCA4MDAgTDgwMCA5MDAgTDQwMCA5MDAgTDQwMCA4MDAgWiIgZmlsbD0idXJsKCNsaWx5KSIvPjxwYXRoIGQ9Ik0yMDAgNzAwIEMyMDAgNTUwIDMwMCA0NTAgNDAwIDQ1MCBDNTAwIDQ1MCA2MDAgNTUwIDYwMCA3MDAgTDYwMCA4MDAgTDIwMCA4MDAgTDIwMCA3MDAgWiIgZmlsbD0idXJsKCNsaWx5KSIvPjxwYXRoIGQ9Ik04MDAgNzUwIEM4MDAgNjAwIDkwMCA1MDAgMTAwMCA1MDAgQzExMDAgNTAwIDEyMDAgNjAwIDEyMDAgNzUwIEwxMjAwIDg1MCBMODAwIDg1MCBMODAwIDc1MCBaIiBmaWxsPSJ1cmwoI2xpbHkpIi8+PC9zdmc+');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.15;
+    }
+</style>
+</head>
+<body>
+    <h1>💕 Catch the Hearts 💕</h1>
+    
+    <div class="lilies-background"></div>
+    
+    <div class="score-display" id="scoreDisplay">Hearts: 0</div>
+    
+    <div class="game-container">
+        <div id="message"></div>
+        <canvas id="game" width="500" height="600"></canvas>
+        <div class="instructions">Use ← → arrow keys to move</div>
+    </div>
+    
+    <div class="kissing-break" id="kissingBreak">
+        <div class="kissing-break-content">💋 Kissing Break 💋</div>
+    </div>
+    
+    <div class="final-message" id="finalMessage">
+        <div class="final-content">
+            <h2>💖 Happy Valentine's Day! 💖</h2>
+            <p>You caught all my love! ❤️</p>
+            <p>I love you more every single day 💕</p>
+            <p>You are my everything 🌟</p>
+            <p style="margin-top: 30px; font-size: 1.2em; opacity: 0.8;">Thank you for being you 💝</p>
+        </div>
+    </div>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+const messageBox = document.getElementById("message");
+const scoreDisplay = document.getElementById("scoreDisplay");
+const finalMessage = document.getElementById("finalMessage");
+const kissingBreak = document.getElementById("kissingBreak");
+
+let basket = { x: 220, y: 550, width: 80, height: 25, vx: 0 };
+let hearts = [];
+let score = 0;
+let finished = false;
+let gamePaused = false;
+let lastSpawn = 0;
+let animationId = null;
+let lastBigHeartSpawn = 0;
+
+const messages = [
+    "You're my favorite person 💖",
+    "I love the way you laugh 😊",
+    "You make every day better 💕",
+    "I'm so lucky to have you ❤️",
+    "I choose you. Always 💘",
+    "You light up my world ✨",
+    "My heart belongs to you 💗",
+    "You're my sunshine ☀️",
+    "I love you to the moon and back 🌙",
+    "You're perfect just the way you are 🌟"
+];
+
+
+// Keyboard controls
+document.addEventListener("keydown", e => {
+    if (gamePaused) return;
+    if (e.key === "ArrowLeft" && basket.x > 0) {
+        basket.vx = -8;
+    }
+    if (e.key === "ArrowRight" && basket.x < canvas.width - basket.width) {
+        basket.vx = 8;
+    }
+    if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        e.preventDefault();
+    }
+});
+
+document.addEventListener("keyup", e => {
+    if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        basket.vx = 0;
+    }
+});
+
+// Touch controls for mobile
+let touchStartX = 0;
+canvas.addEventListener("touchstart", e => {
+    if (gamePaused) return;
+    e.preventDefault();
+    touchStartX = e.touches[0].clientX;
+});
+
+canvas.addEventListener("touchmove", e => {
+    if (gamePaused) return;
+    e.preventDefault();
+    const touchX = e.touches[0].clientX;
+    const deltaX = touchX - touchStartX;
+    basket.x = Math.max(0, Math.min(canvas.width - basket.width, basket.x + deltaX * 0.5));
+    touchStartX = touchX;
+});
+
+function showMessage(text) {
+    messageBox.textContent = text;
+    messageBox.style.opacity = 1;
+    setTimeout(() => {
+        messageBox.style.opacity = 0;
+    }, 2000);
+}
+
+function spawnHeart() {
+    const currentTime = Date.now();
+    
+    // Spawn big heart less frequently (every 12-18 seconds)
+    if (currentTime - lastBigHeartSpawn > 12000 + Math.random() * 6000) {
+        hearts.push({
+            x: Math.random() * (canvas.width - 80) + 40,
+            y: -40,
+            size: 50, // Big heart - fixed size
+            speed: 0.75, // Increased by 25%
+            type: 'big'
+        });
+        lastBigHeartSpawn = currentTime;
+    } else {
+        // Regular small heart - FIXED size (no random variation)
+        hearts.push({
+            x: Math.random() * (canvas.width - 40) + 20,
+            y: -30,
+            size: 22, // Fixed size for all regular hearts
+            speed: 0.875 + Math.random() * 0.375, // Increased by 25%: 0.875-1.25
+            type: 'normal'
+        });
+    }
+}
+
+function drawHeart(x, y, size, type = 'normal') {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = `${size * 2}px serif`;
+    ctx.fillStyle = type === 'big' ? '#e91e63' : '#f44336';
+    ctx.fillText('❤', 0, 0);
+    ctx.restore();
+}
+
+function drawBasket() {
+    ctx.save();
+    
+    // Basket shadow - simple
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+    ctx.fillRect(basket.x + 2, basket.y + basket.height + 2, basket.width, 3);
+    
+    // Basket gradient (navy blue to pink) - NO SHADOW/GLOW
+    const basketGradient = ctx.createLinearGradient(basket.x, basket.y, basket.x, basket.y + basket.height);
+    basketGradient.addColorStop(0, '#1a1a5e');
+    basketGradient.addColorStop(1, '#ff69b4');
+    
+    ctx.fillStyle = basketGradient;
+    
+    // Rounded rectangle for basket
+    const radius = 5;
+    ctx.beginPath();
+    ctx.moveTo(basket.x + radius, basket.y);
+    ctx.lineTo(basket.x + basket.width - radius, basket.y);
+    ctx.quadraticCurveTo(basket.x + basket.width, basket.y, basket.x + basket.width, basket.y + radius);
+    ctx.lineTo(basket.x + basket.width, basket.y + basket.height - radius);
+    ctx.quadraticCurveTo(basket.x + basket.width, basket.y + basket.height, basket.x + basket.width - radius, basket.y + basket.height);
+    ctx.lineTo(basket.x + radius, basket.y + basket.height);
+    ctx.quadraticCurveTo(basket.x, basket.y + basket.height, basket.x, basket.y + basket.height - radius);
+    ctx.lineTo(basket.x, basket.y + radius);
+    ctx.quadraticCurveTo(basket.x, basket.y, basket.x + radius, basket.y);
+    ctx.closePath();
+    ctx.fill();
+    
+    // Basket handle
+    ctx.strokeStyle = '#ff69b4';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(basket.x + basket.width / 2, basket.y - 10, 15, Math.PI, 0, false);
+    ctx.stroke();
+    
+    ctx.restore();
+}
+
+function showKissingBreak() {
+    gamePaused = true;
+    kissingBreak.classList.add("show");
+}
+
+function resumeFromKissingBreak() {
+    kissingBreak.classList.remove("show");
+    gamePaused = false;
+}
+
+// Resume game on click or key press during kissing break
+document.addEventListener("click", () => {
+    if (gamePaused && kissingBreak.classList.contains("show")) {
+        resumeFromKissingBreak();
+    }
+});
+
+document.addEventListener("keydown", (e) => {
+    if (gamePaused && kissingBreak.classList.contains("show")) {
+        resumeFromKissingBreak();
+    }
+});
+
+function update() {
+    if (gamePaused) {
+        animationId = requestAnimationFrame(update);
+        return;
+    }
+    
+    const currentTime = Date.now();
+    
+    // Update basket position
+    basket.x += basket.vx;
+    basket.x = Math.max(0, Math.min(canvas.width - basket.width, basket.x));
+    
+    // Clear canvas fully (no motion trail)
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw basket
+    drawBasket();
+    
+    // Update and draw hearts
+    hearts.forEach((heart, i) => {
+        heart.y += heart.speed;
+        
+        drawHeart(heart.x, heart.y, heart.size, heart.type);
+        
+        // Check collision with basket
+        if (
+            heart.y + heart.size > basket.y &&
+            heart.y - heart.size < basket.y + basket.height &&
+            heart.x > basket.x - 30 &&
+            heart.x < basket.x + basket.width + 30
+        ) {
+            if (heart.type === 'big') {
+                showKissingBreak();
+                hearts.splice(i, 1);
+            } else {
+                score++;
+                scoreDisplay.textContent = `Hearts: ${score}`;
+                showMessage(messages[(score - 1) % messages.length]);
+                hearts.splice(i, 1);
+            }
+        } else if (heart.y > canvas.height + 50) {
+            hearts.splice(i, 1);
+        }
+    });
+    
+    // Spawn hearts
+    if (currentTime - lastSpawn > 1500 && !finished) {
+        spawnHeart();
+        lastSpawn = currentTime;
+    }
+    
+    // Final message at 11 hearts
+    if (score >= 11 && !finished) {
+        finished = true;
+        finalMessage.classList.add("show");
+    }
+    
+    animationId = requestAnimationFrame(update);
+}
+
+// Start the game
+update();
+
+// Prevent context menu on right click
+canvas.addEventListener("contextmenu", e => e.preventDefault());
+</script>
+
+</body>
+</html>
