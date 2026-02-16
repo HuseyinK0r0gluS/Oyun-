@@ -2,16 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For My Valentine ❤️</title>
 <style>
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent;
     }
     
     body {
@@ -22,42 +19,36 @@
         text-align: center;
         color: white;
         height: 100vh;
-        width: 100vw;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         position: relative;
-        touch-action: none;
-        -webkit-user-select: none;
-        user-select: none;
     }
     
     h1 {
         position: fixed;
-        top: 10px;
+        top: 20px;
         left: 50%;
         transform: translateX(-50%);
-        font-size: clamp(1.2em, 5vw, 2.5em);
+        font-size: 2.5em;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         z-index: 100;
         pointer-events: none;
-        padding: 0 10px;
-        white-space: nowrap;
     }
     
     .score-display {
         position: absolute;
-        top: clamp(60px, 15vh, 100px);
+        top: 100px;
         left: 50%;
         transform: translateX(-50%);
-        font-size: clamp(1.2em, 4vw, 2em);
+        font-size: 2em;
         font-weight: bold;
         color: white;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
         z-index: 200;
         background: rgba(30, 58, 138, 0.8);
-        padding: 8px 20px;
+        padding: 12px 30px;
         border-radius: 15px;
         border: 2px solid rgba(59, 130, 246, 0.6);
     }
@@ -66,12 +57,10 @@
         position: relative;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 20px;
-        padding: 15px;
+        padding: 20px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         border: 1px solid rgba(255, 255, 255, 0.2);
-        margin-top: clamp(80px, 20vh, 120px);
-        max-width: 95vw;
-        max-height: 70vh;
+        margin-top: 80px;
     }
     
     canvas {
@@ -80,9 +69,6 @@
         background: rgba(255, 255, 255, 0.1);
         border-radius: 15px;
         box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
-        max-width: 100%;
-        height: auto;
-        touch-action: none;
     }
     
     #message {
@@ -92,20 +78,20 @@
         transform: translateX(-50%);
         width: 90%;
         max-width: 500px;
-        font-size: clamp(1em, 3vw, 1.5em);
+        font-size: 1.5em;
         font-weight: bold;
         opacity: 0;
         text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
         z-index: 100;
         pointer-events: none;
         background: rgba(0, 0, 0, 0.4);
-        padding: 8px 15px;
+        padding: 10px 20px;
         border-radius: 10px;
     }
     
     .instructions {
-        margin-top: 10px;
-        font-size: clamp(0.7em, 2vw, 0.9em);
+        margin-top: 15px;
+        font-size: 0.9em;
         opacity: 0.9;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     }
@@ -122,7 +108,6 @@
         justify-content: center;
         align-items: center;
         z-index: 1000;
-        padding: 20px;
     }
     
     .final-message.show {
@@ -131,18 +116,17 @@
     
     .final-content {
         text-align: center;
-        max-width: 90vw;
     }
     
     .final-content h2 {
-        font-size: clamp(1.5em, 6vw, 3em);
-        margin-bottom: 15px;
+        font-size: 3em;
+        margin-bottom: 20px;
         text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
     }
     
     .final-content p {
-        font-size: clamp(1em, 4vw, 1.5em);
-        margin: 8px 0;
+        font-size: 1.5em;
+        margin: 10px 0;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
     
@@ -161,8 +145,8 @@
     
     .lily {
         position: absolute;
-        width: clamp(80px, 15vw, 120px);
-        height: clamp(110px, 20vw, 160px);
+        width: 120px;
+        height: 160px;
         opacity: 0;
         transform: scale(0.7) translateY(20px);
         animation: lily-pop 0.8s forwards ease-out;
@@ -203,7 +187,7 @@
         left: 0;
         bottom: 0;
         width: 100%;
-        height: clamp(80px, 15vh, 140px);
+        height: 140px;
         display: flex;
         justify-content: space-around;
         align-items: flex-end;
@@ -212,8 +196,8 @@
     }
 
     .bottom-lily {
-        width: clamp(40px, 7vw, 70px);
-        height: clamp(70px, 13vw, 120px);
+        width: 70px;
+        height: 120px;
         opacity: 0.9;
     }
     
@@ -229,7 +213,6 @@
         justify-content: center;
         align-items: center;
         z-index: 2000;
-        padding: 20px;
     }
     
     .kissing-break.show {
@@ -238,7 +221,7 @@
     
     .kissing-break-content {
         text-align: center;
-        font-size: clamp(1.5em, 7vw, 3em);
+        font-size: 3em;
         text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
     }
     
@@ -256,34 +239,6 @@
         background-repeat: no-repeat;
         opacity: 0.15;
     }
-    
-    @media (max-width: 600px) {
-        .game-container {
-            padding: 10px;
-        }
-        
-        .instructions {
-            font-size: 0.8em;
-        }
-    }
-    
-    @media (orientation: landscape) and (max-height: 500px) {
-        h1 {
-            font-size: 1em;
-            top: 5px;
-        }
-        
-        .score-display {
-            top: 45px;
-            font-size: 1em;
-            padding: 5px 15px;
-        }
-        
-        .game-container {
-            margin-top: 70px;
-            padding: 8px;
-        }
-    }
 </style>
 </head>
 <body>
@@ -296,7 +251,7 @@
     <div class="game-container">
         <div id="message"></div>
         <canvas id="game" width="500" height="600"></canvas>
-        <div class="instructions">Sağa sola kaydırarak oyna 👆</div>
+        <div class="instructions">Use ← → arrow keys to move</div>
     </div>
     
     <div class="kissing-break" id="kissingBreak">
@@ -469,35 +424,16 @@
         CANVAS_HEIGHT: 600,
         BASKET_SPEED: 10,
         HEART_SPAWN_INTERVAL: 1400,
-        BIG_HEART_PROBABILITY: 0.30,
+        BIG_HEART_PROBABILITY: 0.60, // 👈 ADD THIS
         GOAL_HEARTS: 11,
         MESSAGE_DURATION: 2500
     };
-    
     const canvas = document.getElementById('game');
     const ctx = canvas.getContext('2d');
     const messageBox = document.getElementById('message');
     const scoreDisplay = document.getElementById('scoreDisplay');
     const finalMessage = document.getElementById('finalMessage');
     const kissingBreak = document.getElementById('kissingBreak');
-
-    // Mobile-responsive canvas sizing
-    function resizeCanvas() {
-        const container = canvas.parentElement;
-        const containerWidth = container.clientWidth - 30; // padding
-        const maxHeight = window.innerHeight * 0.6;
-        
-        const scale = Math.min(containerWidth / CONFIG.CANVAS_WIDTH, maxHeight / CONFIG.CANVAS_HEIGHT, 1);
-        
-        canvas.style.width = (CONFIG.CANVAS_WIDTH * scale) + 'px';
-        canvas.style.height = (CONFIG.CANVAS_HEIGHT * scale) + 'px';
-    }
-
-    window.addEventListener('resize', resizeCanvas);
-    window.addEventListener('orientationchange', () => {
-        setTimeout(resizeCanvas, 100);
-    });
-    resizeCanvas();
 
     const LOVE_MESSAGES = [
         "Seni çoooooooook seviyorummmm 💖",
@@ -562,6 +498,7 @@
         ctx.textBaseline = 'middle';
         ctx.font = size + 'px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif';
 
+        // Use different emoji instead of color
         const emoji = type === 'big' ? '💗' : '❤️';
         ctx.fillText(emoji, 0, 0);
 
@@ -627,6 +564,7 @@
         const dt = Math.min((now - state.lastTime) / 16, 4);
         state.lastTime = now;
 
+        // If game is finished, stop updating completely
         if (state.finished) {
             return;
         }
@@ -653,6 +591,7 @@
                 continue;
             }
             if (hitTest(heart)) {
+                // Ignore any further effects once game has finished
                 if (!state.finished) {
                     if (heart.type === 'big') {
                         showKissingBreak();
@@ -679,7 +618,6 @@
         requestAnimationFrame(gameLoop);
     }
 
-    // Keyboard controls
     document.addEventListener('keydown', function (e) {
         if (state.paused && kissingBreak.classList.contains('show')) {
             hideKissingBreak();
@@ -689,73 +627,31 @@
         if (e.key === 'ArrowLeft') { state.basket.vx = -CONFIG.BASKET_SPEED; e.preventDefault(); }
         if (e.key === 'ArrowRight') { state.basket.vx = CONFIG.BASKET_SPEED; e.preventDefault(); }
     });
-    
     document.addEventListener('keyup', function (e) {
         if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') state.basket.vx = 0;
     });
 
-    // Enhanced touch controls for mobile
     let touchStartX = 0;
-    let isTouching = false;
-    
     canvas.addEventListener('touchstart', function (e) {
-        if (state.paused && kissingBreak.classList.contains('show')) {
-            hideKissingBreak();
-            e.preventDefault();
-            return;
-        }
         if (state.paused) return;
-        
         e.preventDefault();
-        isTouching = true;
-        const touch = e.touches[0];
-        touchStartX = touch.clientX;
-        
-        // Immediately position basket under finger
-        const rect = canvas.getBoundingClientRect();
-        const scale = CONFIG.CANVAS_WIDTH / rect.width;
-        const canvasX = (touch.clientX - rect.left) * scale;
-        state.basket.x = Math.max(0, Math.min(CONFIG.CANVAS_WIDTH - state.basket.width, canvasX - state.basket.width / 2));
+        touchStartX = e.touches[0].clientX;
     }, { passive: false });
-    
     canvas.addEventListener('touchmove', function (e) {
         if (state.paused) return;
         e.preventDefault();
-        
-        if (!isTouching) return;
-        
-        const touch = e.touches[0];
+        const tx = e.touches[0].clientX;
         const rect = canvas.getBoundingClientRect();
         const scale = CONFIG.CANVAS_WIDTH / rect.width;
-        const canvasX = (touch.clientX - rect.left) * scale;
-        
-        // Smooth basket movement
+        const canvasX = (tx - rect.left) * scale;
         state.basket.x = Math.max(0, Math.min(CONFIG.CANVAS_WIDTH - state.basket.width, canvasX - state.basket.width / 2));
-        
-        touchStartX = touch.clientX;
-    }, { passive: false });
-    
-    canvas.addEventListener('touchend', function (e) {
-        e.preventDefault();
-        isTouching = false;
-    }, { passive: false });
-    
-    canvas.addEventListener('touchcancel', function (e) {
-        e.preventDefault();
-        isTouching = false;
+        touchStartX = tx;
     }, { passive: false });
 
-    // Click to dismiss kissing break
     document.addEventListener('click', function () {
         if (state.paused && kissingBreak.classList.contains('show')) hideKissingBreak();
     });
-    
     canvas.addEventListener('contextmenu', function (e) { e.preventDefault(); });
-
-    // Prevent bounce/scroll on mobile
-    document.body.addEventListener('touchmove', function(e) {
-        e.preventDefault();
-    }, { passive: false });
 
     state.lastTime = performance.now();
     requestAnimationFrame(gameLoop);
